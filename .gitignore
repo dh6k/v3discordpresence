@@ -15,4 +15,3 @@ NodeHost/src/app-macos
 .env
 NodeHost/src/version.json
 dist/
-keys/*.pem

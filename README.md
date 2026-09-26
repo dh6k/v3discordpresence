@@ -77,7 +77,7 @@ Packed Chrome builds include:
 
 **Chrome reality check:** since Chrome 75, self-hosted CRX auto-update only applies to **enterprise policy** installs (ExtensionInstallForcelist / ExtensionSettings). A normal consumer Chrome will **not** silently update a sideloaded CRX from `update_url`. Developer-mode unpacked reloads via the reload button. Use `update_url` if you deploy via policy or your own update channel.
 
-The extension id is derived from `keys/v3dp-crx.pem`. Keep that key stable or the id (and `appid` in `updates.xml`) changes. For CI, set repository secret `CRX_KEY_BASE64` (base64 of the PEM).
+The extension id is derived from `keys/v3dp-crx.pem` (committed on purpose so every CI build produces the same id `bfoldbhkkahhjipbmjcdccdimlmpfkfo`). Do not regenerate this file. `Host/main.json` allow-lists that id plus the older `pklohnlmjlimlbcmmjnlioillpkaofad` from the first v1.8.1 drop (that build used a runner-ephemeral key).
 
 ---
 
