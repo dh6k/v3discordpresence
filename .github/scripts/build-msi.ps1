@@ -12,6 +12,11 @@ if (!(Test-Path $exe)) {
     throw "Missing $exe - run 'npm ci; npm run compile' in NodeHost first."
 }
 
+# Fresh ProductCode + ProductVersion each build so Windows Installer can replace
+# a previous install (otherwise ERROR 1638: "Another version of this product is already installed").
+& (Join-Path $PSScriptRoot 'stamp-msi-identity.ps1')
+if ($LASTEXITCODE -ne 0) { throw 'stamp-msi-identity.ps1 failed' }
+
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 if (!(Test-Path $vswhere)) {
     throw 'vswhere.exe not found - Visual Studio Installer is missing on this runner.'
