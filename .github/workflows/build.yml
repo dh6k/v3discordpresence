@@ -1,0 +1,62 @@
+# Builds the Windows host binary, YTDPsetup.msi, and browser-extension zips.
+# Local equivalent: npm run compile in NodeHost, then build Host/YTDPsetup/YTDPsetup.vdproj in VS.
+name: Build
+
+on:
+  push:
+    branches: [main, master]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: NodeHost/package-lock.json
+
+      - name: Build YTDPwin.exe
+        working-directory: NodeHost
+        run: |
+          npm ci
+          npm run compile
+
+      - name: Build YTDPsetup.msi
+        shell: pwsh
+        run: .github/scripts/build-msi.ps1
+
+      - name: Package extensions
+        shell: pwsh
+        run: .github/scripts/package-extensions.ps1
+
+      - name: Collect artifacts
+        shell: pwsh
+        run: |
+          Copy-Item Host/YTDPsetup/Release/YTDPsetup.msi dist/
+          Get-ChildItem dist | Format-Table Name, Length
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ytdp-dist
+          path: dist/*
+          if-no-files-found: error
+
+      - name: Attach to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
