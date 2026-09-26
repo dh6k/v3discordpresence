@@ -12,7 +12,8 @@
             ],
             "js": [
                 "content_loader.js"
-            ]
+            ],
+            "run_at": "document_start"
         }
     ],
     "action": {

@@ -63,7 +63,14 @@ if (!IPCTransport.prototype.connect.toString().includes("getIPCAtIndex")) {
 
 // PRESENCE HANDLERS
 
+const { sanitizePresence } = require('./sanitize');
+
 async function updatePresence(presenceData, layer) {
+    const activity = sanitizePresence(presenceData);
+    if (!activity) {
+        sendExtensionMessage(false, "PRESENCE_UPDATING_ERROR", "empty activity");
+        return;
+    }
     if (clients.length === 0) {
         sendExtensionMessage(false, "NO_CLIENTS_CONNECTED");
         return;
@@ -73,7 +80,7 @@ async function updatePresence(presenceData, layer) {
         try {
             await entry.client.request("SET_ACTIVITY", {
                 pid: process.pid,
-                activity: presenceData
+                activity: activity
             });
             return { pipeIndex: entry.pipeIndex, success: true };
         } catch (err) {
@@ -84,7 +91,7 @@ async function updatePresence(presenceData, layer) {
                     await newClient.login({ clientId: currentApplication.id });
                     await newClient.request("SET_ACTIVITY", {
                         pid: process.pid,
-                        activity: presenceData
+                        activity: activity
                     });
                     // Only replace the old client after SET_ACTIVITY succeeds
                     entry.client = newClient;

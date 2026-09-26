@@ -217,6 +217,8 @@ function isExcluded(title, author, videoUrl) {
     if (settings.enableExclusions == false) {
         return false;
     }
+    title = title || "";
+    author = author || "";
     for (let i = 0; i < settings.videoExclusionsList.length; ++i) {
         excludedVideoId = getVideoId(settings.videoExclusionsList[i]);
         if (excludedVideoId && getVideoId(videoUrl) == excludedVideoId) {
@@ -241,6 +243,8 @@ function isIncluded(title, author, videoId) {
     if (settings.enableInclusions == false) {
         return true;
     }
+    title = title || "";
+    author = author || "";
     for (let i = 0; i < settings.videoInclusionsList.length; ++i) {
         includedVideoId = getVideoId(settings.videoInclusionsList[i]);
         if (includedVideoId && videoId == includedVideoId) {
@@ -350,18 +354,22 @@ function idleCallback() {
 // FOR 1.5.2 OR ABOVE, ALL PRESENCE DATA WILL BE HANDLED AND SENT IN THE EXTENSION UNDER presenceData. OTHER OBJECT KEY PAIRS ARE FOR BACKWARDS COMPATIBILITY
 
 function generatePresenceData() {
+    const author = currentMessage.author || "";
+    const title = currentMessage.title || "";
+    const album = currentMessage.album || "";
+
     let stateData = "";
     let activityType = 3; // Activity: Watching
     if (currentMessage.timeLeft != LIVESTREAM_TIME_ID) {
-        stateData = settings.addByAuthor ? `by ${currentMessage.author}` : currentMessage.author;
+        stateData = settings.addByAuthor ? `by ${author}` : author;
     }
     else {
-        stateData = settings.addByAuthor ? `[LIVE] on ${currentMessage.author}` : currentMessage.author;
+        stateData = settings.addByAuthor ? `[LIVE] on ${author}` : author;
     }
 
     // large_text and details must be >1 char long, pad with zws
-    let paddedTitle = currentMessage.title.padEnd(2, '\u200b');
-    let largeHoverText = (currentMessage.album ? currentMessage.album.padEnd(2, '\u200b') : paddedTitle).substring(0, 128);
+    let paddedTitle = title.padEnd(2, '\u200b');
+    let largeHoverText = (album ? album.padEnd(2, '\u200b') : paddedTitle).substring(0, 128);
 
     let assetsData = {
         large_image: "youtube3",
@@ -449,9 +457,9 @@ function generatePresenceData() {
 
 function updateCallback() {
     let dataObject = {
-        cppData: NMF.TITLE + currentMessage.title + NMF.AUTHOR + currentMessage.author + NMF.TIME_LEFT + Math.round(currentMessage.timeLeft) + NMF.END,
-        jsTitle: currentMessage.title,
-        jsAuthor: currentMessage.author,
+        cppData: NMF.TITLE + (currentMessage.title || "") + NMF.AUTHOR + (currentMessage.author || "") + NMF.TIME_LEFT + Math.round(currentMessage.timeLeft || 0) + NMF.END,
+        jsTitle: currentMessage.title || "",
+        jsAuthor: currentMessage.author || "",
         jsAlbum: currentMessage.album,
         jsTimeLeft: currentMessage.timeLeft,
         jsVideoUrl: currentMessage.videoUrl,
