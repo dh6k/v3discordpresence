@@ -268,7 +268,7 @@
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.8.3"
+        "ProductVersion" = "8:1.8.4"
         "Manufacturer" = "8:v3dp Team"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/dh6k/v3discordpresence"

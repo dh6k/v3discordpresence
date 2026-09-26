@@ -43,6 +43,7 @@ let settings = {
     enableYouTube: true,
     enableYouTubeMusic: true,
     enableVideoButton: true,
+    enableDownloadButton: true,
     enableChannelButton: true,
     enablePlayingIcon: true,
     addByAuthor: true,
@@ -398,7 +399,7 @@ function generatePresenceData() {
 
     if (settings.enablePlayingIcon) {
         assetsData.small_image = "playing-icon-6";
-        assetsData.small_text = "v3discordpresence on GitHub";
+        assetsData.small_text = "powered by V3™";
     }
 
     let timeStampsData = {};
@@ -426,14 +427,20 @@ function generatePresenceData() {
         }
         else {
             buttonsData.push({
-                label: "Watch Video",
+                label: "Watch on YouTube",
                 url: currentMessage.videoUrl
             });
         }
     }
+    if (settings.enableDownloadButton) {
+        buttonsData.push({
+            label: "Download V3",
+            url: "https://vorapis.pages.dev/#/home/download"
+        });
+    }
     if (settings.enableChannelButton && currentMessage.channelUrl && !currentMessage.channelUrl.endsWith("undefined")) {
         buttonsData.push({
-            label: "View Channel",
+            label: "View channel",
             url: currentMessage.channelUrl
         });
     }

@@ -305,6 +305,17 @@ function initializeDocument(tab) {
         handleSwitchStatusAndStorage(result.enableVideoButton, status, null);
     });
 
+    // ENABLE DOWNLOAD BUTTON IN PRESENCE
+    let enableDownloadButtonLabel = document.getElementById("enableDownloadButtonLabel");
+    chrome.storage.sync.get("enableDownloadButton", function (result) {
+        let status = enableDownloadButtonLabel.querySelector("span.switchStatus");
+        let statusSwitch = enableDownloadButtonLabel.querySelector("label.switch > input");
+        if (result.enableDownloadButton) {
+            statusSwitch.checked = "checked";
+        }
+        handleSwitchStatusAndStorage(result.enableDownloadButton, status, null);
+    });
+
     // ENABLE CHANNEL BUTTON IN PRESENCE
     let enableChannelButtonLabel = document.getElementById("enableChannelButtonLabel");
     chrome.storage.sync.get("enableChannelButton", function (result) {
@@ -354,14 +365,14 @@ function initializeDocument(tab) {
     // Get extension version from manifest
     const manifestData = chrome.runtime.getManifest();
     const extensionVersion = manifestData.version;
-    document.getElementById("extensionVersion").textContent = `Extension: v${extensionVersion}`;
+    document.getElementById("extensionVersion").textContent = `Extension: v${extensionVersion}_v3`;
 
     // Get desktop app version from storage
     chrome.storage.sync.get(["nativeVersion", "nativeVersionStatus", "isNativeConnected"], function (result) {
         const desktopVersionElement = document.getElementById("desktopVersion");
         
         if (result.nativeVersion) {
-            desktopVersionElement.textContent = `Desktop: v${result.nativeVersion}`;
+            desktopVersionElement.textContent = `Desktop: v${result.nativeVersion}_v3`;
         } else if (result.isNativeConnected === true) {
             desktopVersionElement.textContent = "Desktop: Connected";
         } else if (result.isNativeConnected === false) {
@@ -723,6 +734,15 @@ function handleEditPresenceChanges() {
         chrome.storage.sync.get("enableVideoButton", function (result) {
             let status = enableVideoButtonLabel.querySelector("span.switchStatus");
             handleSwitchStatusAndStorage(status.innerHTML == "OFF", status, "enableVideoButton");
+        });
+    });
+
+    // DOWNLOAD BUTTON
+    let enableDownloadButtonLabel = document.getElementById("enableDownloadButtonLabel");
+    enableDownloadButtonLabel.querySelector("label.switch").addEventListener("change", function () {
+        chrome.storage.sync.get("enableDownloadButton", function (result) {
+            let status = enableDownloadButtonLabel.querySelector("span.switchStatus");
+            handleSwitchStatusAndStorage(status.innerHTML == "OFF", status, "enableDownloadButton");
         });
     });
 
