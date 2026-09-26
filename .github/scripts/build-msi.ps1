@@ -14,8 +14,9 @@ if (!(Test-Path $exe)) {
 
 # Fresh ProductCode + ProductVersion each build so Windows Installer can replace
 # a previous install (otherwise ERROR 1638: "Another version of this product is already installed").
+# Note: do NOT test $LASTEXITCODE after a child .ps1 — it stays $null, and ($null -ne 0) is $true.
 & (Join-Path $PSScriptRoot 'stamp-msi-identity.ps1')
-if ($LASTEXITCODE -ne 0) { throw 'stamp-msi-identity.ps1 failed' }
+if (-not $?) { throw 'stamp-msi-identity.ps1 failed' }
 
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
 if (!(Test-Path $vswhere)) {

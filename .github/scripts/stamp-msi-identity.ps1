@@ -45,3 +45,4 @@ Write-Host "  ProductVersion = $Version"
 Write-Host "  ProductCode    = $newProductCode"
 Write-Host "  PackageCode    = $newPackageCode"
 Write-Host "  UpgradeCode    = (unchanged - required for RemovePreviousVersions)"
+exit 0
