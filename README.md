@@ -97,6 +97,35 @@ The extension polls the page player API every second and tolerates missing field
 - Browser Discord is not supported — use the desktop client.
 - V3-specific: if presence never appears, check that the video is actually playing (`getPlayerState() == 1`) and that no ad overlay is up. Live streams are detected via `is_live` / `.yt-badge-live` / the player live badge.
 
+### “Desktop app not detected”
+
+MSI/host install is usually fine. Chrome refuses native messaging unless the **extension id** is in `main.json` → `allowed_origins`.
+
+**Stable id (preferred).** `Extension/manifest.json` has a `"key"` field (SPKI from `keys/v3dp-crx.pem`). Chrome then derives the id from that key, so **unpacked and CRX get the same id**:
+
+```text
+bfoldbhkkahhjipbmjcdccdimlmpfkfo
+```
+
+That id is what `Host/main.json` ships in the MSI. After a fresh unpack/CRX load the id matches and native messaging works with **no manual edit**.
+
+If your extension shows a different id (loaded before the `key` was added), reload it from `dist/v3discordpresence-<ver>-chrome/` (or reinstall the CRX). `chrome.runtime.id` / `chrome://extensions` must show `bfoldbhkkahhjipbmjcdccdimlmpfkfo`.
+
+**Fallback** (custom/partial loads):
+
+```powershell
+.\scripts\allow-extension-id.ps1 -Id <id from chrome://extensions>
+```
+
+Host checklist:
+
+```text
+C:\Program Files\v3discordpresence\v3dpwin.exe     exists
+C:\Program Files\v3discordpresence\main.json       allowed_origins contains chrome-extension://bfoldbhkkahhjipbmjcdccdimlmpfkfo/
+HKCU\Software\Google\Chrome\NativeMessagingHosts\com.v3dp.discord.presence
+  = C:\Program Files\v3discordpresence\main.json
+```
+
 ---
 
 ## Building

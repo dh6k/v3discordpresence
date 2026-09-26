@@ -56,9 +56,11 @@ function copyTree(src, dest, filterRel) {
 // --- per-browser manifests ---
 // Chrome MV3: service_worker only. Firefox MV3: scripts + gecko id.
 // Keep them valid: do NOT re-serialize via PowerShell ConvertTo-Json (breaks schemas).
-function chromeManifest(base, updateUrl) {
+function chromeManifest(base, updateUrl, keyB64) {
   const m = JSON.parse(JSON.stringify(base));
   delete m.browser_specific_settings;
+  // Stable extension id for unpacked AND crx loads (Chrome derives id from "key", not path)
+  if (keyB64) m.key = keyB64;
   if (m.background) {
     m.background = { service_worker: m.background.service_worker || 'background.js' };
   }
@@ -76,8 +78,9 @@ function chromeManifest(base, updateUrl) {
   return m;
 }
 
-function firefoxFallbackManifest(base) {
+function firefoxFallbackManifest(base, keyB64) {
   const m = JSON.parse(JSON.stringify(base));
+  if (keyB64) m.key = keyB64;
   if (m.background && !m.background.scripts) {
     m.background.scripts = [m.background.service_worker || 'background.js'];
   }
@@ -299,9 +302,14 @@ function main() {
   copyTree(EXT, stageChrome);
   copyTree(EXT, stageFirefox);
 
+  // Derive public key b64 BEFORE staging so unpacked/crx share one extension id
+  const privateKeyPem = loadPrivateKey();
+  const pub = pemToPublicKey(privateKeyPem);
+  const der = publicKeyDer(pub);
+  const keyB64 = der.toString('base64');
   const updateUrl = `https://raw.githubusercontent.com/${REPO}/main/updates.xml`;
-  const cm = chromeManifest(base, updateUrl);
-  const fm = firefoxFallbackManifest(base);
+  const cm = chromeManifest(base, updateUrl, keyB64);
+  const fm = firefoxFallbackManifest(base, keyB64);
   writeJson(path.join(stageChrome, 'manifest.json'), cm);
   writeJson(path.join(stageFirefox, 'manifest.json'), fm);
 
@@ -318,10 +326,7 @@ function main() {
   copyTree(stageChrome, unpackedChrome);
   copyTree(stageFirefox, unpackedFirefox);
 
-  // --- key / id ---
-  const privateKeyPem = loadPrivateKey();
-  const pub = pemToPublicKey(privateKeyPem);
-  const der = publicKeyDer(pub);
+  // --- key / id (privateKeyPem / der already loaded above) ---
   const crxIdHex = crypto.createHash('sha256').update(der).digest('hex').slice(0, 32);
   const crxId16 = Buffer.from(crxIdHex, 'hex');
   const extensionId = extensionIdFromDer(der);

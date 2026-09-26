@@ -1,4 +1,5 @@
 {
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq99ATolaN8+SsRq7TgWc+U7A1VHZFHwNYzE/G1f1iyf1D1gab4zKKpw0yPWGDH1DCZ5mzGhW5w2+Y5K1reu6SjbPIGdHLDpnNrN1JlMiGaHDdC6Vf/lxH95XFMsKHA/Ak98lY6FslBB4J/KkYjF1Ek4cflqdI8FGCC7be0ND0awTw4/A9uVtpyaGGnIuQk8sR6v4WCbsplGAsBYKSBJL6QImx+47cS396iv8ao4ub6+/95bBBcH2SgrLW5D72jVpSlttjo73sFlDFqYlARVA7YTT6SO1vPFqaj+ZhipO1oRicfe13Xlc3VMNE5FB4HvomjxW1DoNoLVhmWJLpR00EQIDAQAB",
     "name": "v3discordpresence",
     "author": "Michael Ren",
     "description": "An extension used to create a detailed rich presence for YouTube and YouTube Music activity on Discord.",
@@ -44,7 +45,9 @@
     },
     "background": {
         "service_worker": "background.js",
-        "scripts": [ "background.js" ]
+        "scripts": [
+            "background.js"
+        ]
     },
     "browser_specific_settings": {
         "gecko": {

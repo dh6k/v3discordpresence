@@ -4,6 +4,6 @@
     "path": "v3dpwin.exe",
     "type": "stdio",
     "allowed_origins": [
-        "chrome-extension://hnmeidgkfcbpjjjpmjmpehjdljlaeaaa/"
+        "chrome-extension://bfoldbhkkahhjipbmjcdccdimlmpfkfo/"
     ]
 }
