@@ -7,7 +7,7 @@ const { version } = require('../src/version.json');
   await new Promise((resolve) => { setTimeout(resolve, 2000); }); // ensure compile done/file freed
 
   // we use resedit instead of rcedit because we need the no-grow flag
-  execSync(`npx resedit src/YTDPwin.exe -o src/YTDPwin.exe --file-version ${windowsVersion} --product-version ${windowsVersion} --no-grow`, {
+  execSync(`npx resedit src/v3dpwin.exe -o src/v3dpwin.exe --file-version ${windowsVersion} --product-version ${windowsVersion} --no-grow`, {
     stdio: 'inherit'
   });
 })();

@@ -1,4 +1,4 @@
-// Node.js version of YouTubeDiscordPresence (buttons and no watermark!)
+// Node.js version of v3discordpresence (buttons and no watermark!)
 // MAIN VARIABLE INITIALIZATION
 const { version } = require('./version.json');
 

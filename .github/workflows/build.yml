@@ -1,5 +1,5 @@
-# Builds the Windows host binary, YTDPsetup.msi, and browser-extension zips.
-# Local equivalent: npm run compile in NodeHost, then build Host/YTDPsetup/YTDPsetup.vdproj in VS.
+# Builds the Windows host binary, v3dpsetup.msi, and browser-extension zips.
+# Local equivalent: npm run compile in NodeHost, then build Host/v3dpsetup/v3dpsetup.vdproj in VS.
 name: Build
 
 on:
@@ -28,13 +28,13 @@ jobs:
           cache: npm
           cache-dependency-path: NodeHost/package-lock.json
 
-      - name: Build YTDPwin.exe
+      - name: Build v3dpwin.exe
         working-directory: NodeHost
         run: |
           npm ci
           npm run compile
 
-      - name: Build YTDPsetup.msi
+      - name: Build v3dpsetup.msi
         shell: pwsh
         run: .github/scripts/build-msi.ps1
 
@@ -45,12 +45,12 @@ jobs:
       - name: Collect artifacts
         shell: pwsh
         run: |
-          Copy-Item Host/YTDPsetup/Release/YTDPsetup.msi dist/
+          Copy-Item Host/v3dpsetup/Release/v3dpsetup.msi dist/
           Get-ChildItem dist | Format-Table Name, Length
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ytdp-dist
+          name: v3dp-dist
           path: dist/*
           if-no-files-found: error
 

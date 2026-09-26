@@ -8,7 +8,7 @@ body:
     attributes:
       value: |
         Before submitting, please see if the bug has already been reported:
-        https://github.com/XFG16/YouTubeDiscordPresence/issues?q=label%3Ainvestigating%2Cbug
+        https://github.com/dh6k/v3discordpresence/issues?q=label%3Ainvestigating%2Cbug
 
   - type: checkboxes
     id: checks
@@ -92,7 +92,7 @@ body:
       label: Background console logs
       description: |
         Not required, but it really helps us to debug, and we will probably ask for it later. To get the logs:
-        - Chrome: Go to chrome://extensions, enable Developer mode, and click "inspect views: service worker" for YouTubeDiscordPresence.
-        - Firefox: Go to about:debugging#/runtime/this-firefox and click "Inspect" for YouTubeDiscordPresence.
+        - Chrome: Go to chrome://extensions, enable Developer mode, and click "inspect views: service worker" for v3discordpresence.
+        - Firefox: Go to about:debugging#/runtime/this-firefox and click "Inspect" for v3discordpresence.
         In the window that opens, go to Console and paste a screenshot or the text here.
       placeholder: Paste console output here

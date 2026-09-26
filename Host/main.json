@@ -1,7 +1,7 @@
 {
-    "name": "com.ytdp.discord.presence",
-    "description": "Component of the YouTubeDiscordPresence extension that allows the usage of native messaging.",
-    "path": "YTDPwin.exe",
+    "name": "com.v3dp.discord.presence",
+    "description": "Component of the v3discordpresence extension that allows the usage of native messaging.",
+    "path": "v3dpwin.exe",
     "type": "stdio",
     "allowed_origins": [
         "chrome-extension://hnmeidgkfcbpjjjpmjmpehjdljlaeaaa/"

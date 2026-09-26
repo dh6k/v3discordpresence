@@ -1,84 +1,112 @@
-# YouTubeDiscordPresence
+# v3discordpresence
 
 <p align="left">
-    <a href="https://chrome.google.com/webstore/detail/youtubediscordpresence/hnmeidgkfcbpjjjpmjmpehjdljlaeaaa" alt="Category: Social & Communication">
-        <img src="https://img.shields.io/badge/Category-Social%20%26%20Communication-blueviolet" /></a>
-    <a href="https://github.com/XFG16/YouTubeDiscordPresence#license" alt="MIT License">
+    <a href="https://github.com/dh6k/v3discordpresence/blob/main/LICENSE.txt" alt="MIT License">
         <img src="https://img.shields.io/badge/License-MIT-yellow" /></a>
+    <a href="https://github.com/dh6k/v3discordpresence/actions" alt="Build">
+        <img src="https://img.shields.io/github/actions/workflow/status/dh6k/v3discordpresence/build.yml" /></a>
 </p>
 
-**YouTubeDiscordPresence** (YTDP) is a desktop application and browser extension used to create a detailed rich presence for YouTube and YouTube Music on Discord. Only **Windows (x64)** is supported, although more operating systems may be supported in the future.
+> **Fork notice.** `v3discordpresence` is a fork of [XFG16/YouTubeDiscordPresence](https://github.com/XFG16/YouTubeDiscordPresence) (MIT).
+> Upstream built the original YouTube / YouTube Music → Discord rich-presence pipeline (extension + Windows native host).
+> This fork is **not** affiliated with the upstream project. Feature credit for the base product belongs to the original authors.
 
-<br>
+**v3discordpresence** (v3dp) is a desktop application and browser extension that creates a detailed Discord rich presence for YouTube and YouTube Music. Only **Windows (x64)** is supported.
 
-<img height="300px" src="Screenshots/newUiExample.png">
+It is **designed to run alongside Project VORAPIS (V3)** — the userscript / browser extension that restores the 2013–2014 YouTube frontend. V3 replaces the modern polymer player and watch page, which breaks stock v3dp selectors. This fork reads both:
+
+- the **VORAPIS watch7 UI** (`#eow-title`, `#watch7-user-header .yt-user-name`, `.yt-badge-live`, `getVideoData().video_id`), and
+- the **modern polymer YouTube** player / DOM (upstream behaviour).
+
+So the same build works on plain YouTube, YouTube Music, and V3.
 
 ---
 
 ## Installation
 
-<p align="left">
-    <a href="https://chrome.google.com/webstore/detail/youtubediscordpresence/hnmeidgkfcbpjjjpmjmpehjdljlaeaaa" alt="Chrome Extension">
-        <img src="https://img.shields.io/badge/Chrome%20Web%20Store-21%2C000%2B%20Users-critical" /></a>
-    <a href="https://chrome.google.com/webstore/detail/youtubediscordpresence/hnmeidgkfcbpjjjpmjmpehjdljlaeaaa" alt="Category: Social & Communication">
-        <img src="https://img.shields.io/badge/Total%20Installs-71%2C000%2B-blue" /></a>
-</p>
+1. Add the browser extension:
+   - load `Extension/` unpacked, or
+   - install the `v3discordpresence-<version>-chrome.zip` / `-firefox.zip` from [**<ins>Releases</ins>**](https://github.com/dh6k/v3discordpresence/releases/latest).
 
-If you've already downloaded the extension, **skip the first step!**
+2. Download the latest `v3dpsetup.msi` from [**<ins>Releases</ins>**](https://github.com/dh6k/v3discordpresence/releases/latest) and run it to install the desktop native-messaging host.
+   - Installs to `C:\Program Files\v3discordpresence`.
+   - Registers `com.v3dp.discord.presence` for Chrome and Firefox.
+   - **Windows x64 only.**
 
-1. Add the extension to your browser. 
-    - Access personalization settings later by clicking on the extension (puzzle piece) button at the top right corner of your browser.
+3. Use Discord **desktop** (not browser Discord) with *Activity Privacy → Share my activity* on.
 
-<a href="https://chromewebstore.google.com/detail/youtubediscordpresence/hnmeidgkfcbpjjjpmjmpehjdljlaeaaa"><img alt="Download on the Chrome Web Store" src="https://developer.chrome.com/static/docs/webstore/branding/image/HRs9MPufa1J1h5glNhut.png" height=60px></img></a>
-<a href="https://addons.mozilla.org/en-US/firefox/addon/youtubediscordpresence/"><img alt="Download on the Firefox Addon Store" src="https://extensionworkshop.com/assets/img/documentation/publish/get-the-addon-178x60px.dad84b42.png" height=60px></img></a>
+Restarting the PC after a first install usually clears any remaining connection issues.
 
-2. Download the latest `YTDPsetup.msi` file in [**<ins>Releases</ins>**](https://github.com/XFG16/YouTubeDiscordPresence/releases/latest) and **run it on your device** to install the secondary desktop component.
-   - **Note:** Only Windows is currently supported.
-
-Still confused? Watch the **installation tutorial** on YouTube using [**<ins>this link</ins>**](https://www.youtube.com/watch?v=BWPNqPGFyL4).
+> If you also have upstream `YouTubeDiscordPresence` installed, uninstall it first. The products are separate (different native-host id) but the presence pipes are the same.
 
 ---
 
-## Troubleshooting/Known Issues
+## Using with VORAPIS (V3)
 
-- The `Listen Along` and `View Channel` buttons in the rich presence don't show when looking at your own profile, but it will show for others. See the example image above. This is a Discord [**<ins>limitation</ins>**](https://github.com/discordjs/RPC/issues/180#issuecomment-2313232518).
+1. Install Project VORAPIS (userscript or its own extension) so YouTube loads the watch7 UI.
+2. Install this extension + the `v3dpsetup.msi` host.
+3. Play a video. Presence appears when playback starts and clears when the video ends or pauses.
 
-- YouTubeDiscordPresence only works with the desktop application of Discord, **not the browser version.**
-
-- Ensure that the `Share my activity` setting under `Activity Privacy` is **turned on**.
-
-Restarting your PC usually resolves any issues, especially on first install.
+The extension polls the page player API every second and tolerates missing fields, so a partial V3 DOM still produces presence when title/author/time are recoverable (via `getVideoData()`, oEmbed, or watch7 selectors).
 
 ---
 
-## Bugs, Feature Requests, or Support
+## Troubleshooting / Known issues
 
-Go [here](https://github.com/XFG16/YouTubeDiscordPresence/issues/new/choose) and follow the template!
+- Discord’s own limitation: *Listen Along* / *View Channel* buttons do not show on **your own** profile, only for others.
+- Browser Discord is not supported — use the desktop client.
+- V3-specific: if presence never appears, check that the video is actually playing (`getPlayerState() == 1`) and that no ad overlay is up. Live streams are detected via `is_live` / `.yt-badge-live` / the player live badge.
 
 ---
 
 ## Building
 
-Desktop application:
+Desktop host:
 
-- `npm run compile`
-- Replace the existing `YTDPwin.exe` in `C:\Program Files\YouTubeDiscordPresence` with the newly compiled one.
+```text
+cd NodeHost
+npm ci
+npm run compile
+```
 
-- Building the `.msi`: Download **Visual Studio 2026** with the **Microsoft Visual Studio Installer Project** extension. Open `Host\YTDPsetup\YTDPsetup.vdproj` and build `YTDPsetup`.
+- Output: `NodeHost/src/v3dpwin.exe`.
+- Copy it over `C:\Program Files\v3discordpresence\v3dpwin.exe` for a local install.
+
+MSI (optional, also done in CI):
+
+- Visual Studio + **Microsoft Visual Studio Installer Projects**.
+- Open `Host/v3dpsetup/v3dpsetup.vdproj` and build `v3dpsetup`.
+- Or push / run the `Build` GitHub Actions workflow (builds `v3dpsetup.msi` + extension zips).
 
 Extension:
 
-- Download the `Extension` directory and load the extension into your browser manually.
-  - Chrome: add the local extension's ID to the `allowed_origins` array at `C:\Program Files\YouTubeDiscordPresence\main.json`.
+- Load `Extension/` unpacked.
+- For a local unpacked Chrome install, add the extension ID to `allowed_origins` in `C:\Program Files\v3discordpresence\main.json`.
+
+Self-check for the host payload sanitizer:
+
+```text
+cd NodeHost
+node scripts/check-sanitize.js
+```
+
+---
+
+## AI assistance
+
+Parts of this fork (VORAPIS compatibility layer, CI workflow, presence-payload sanitizer, and this documentation) were produced with **AI-assisted development** (Xiaomi MiMo / agent tooling) under human review. Treat AI-touched code as best-effort: verify on your machine before relying on it. Upstream `YouTubeDiscordPresence` code remains under its original authorship.
 
 ---
 
 ## Miscellaneous
 
-**DISCLAIMER:** this is not a bootleg copy of PreMiD. On a more technical note, it works similar to the Spotify rich presence—it only appears **when a video is playing** and **disappears when there is no video or the video is paused**. In addition, it only displays the presence for videos. Idling and searching are **not displayed**. Features such as exclusions, fully customizable details, and thumbnail coverage are **unique and original** to YouTubeDiscordPresence. YouTubeDiscordPresence has not referenced nor is affiliated with PreMiD in any way whatsoever.
+This is not a PreMiD clone. Like the Spotify rich presence, it shows **only while a video is playing** and disappears when nothing is playing or the video is paused. Idling and searching are not shown.
 
 ---
 
 ## License
 
-Licensed under the [MIT](https://github.com/XFG16/YouTubeDiscordPresence/blob/main/LICENSE.txt) license.
+MIT — see [LICENSE.txt](LICENSE.txt).
+
+- Original work: Copyright (c) 2022–Present Michael Ren ([XFG16/YouTubeDiscordPresence](https://github.com/XFG16/YouTubeDiscordPresence)).
+- This fork: Copyright (c) 2026–Present Charles Kim and other contributors.

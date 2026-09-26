@@ -1,14 +1,14 @@
 /*
 Copyright (c) 2022–Present Michael Ren
 Licensing and distribution info can be found at the GitHub repository
-https://github.com/XFG16/YouTubeDiscordPresence
+https://github.com/dh6k/v3discordpresence
 */
 
 // MAIN VARIABLE INITIALIZATION
 
 const LOGGING = true;
 
-const NMF = Object.freeze({ // NMF = NATIVE_MESSAGE_FORMAT (FOR HANDLING BY YTDPwin.exe)
+const NMF = Object.freeze({ // NMF = NATIVE_MESSAGE_FORMAT (FOR HANDLING BY v3dpwin.exe)
     TITLE: ":TITLE001:",
     AUTHOR: ":AUTHOR002:",
     TIME_LEFT: ":TIMELEFT003:",
@@ -151,7 +151,7 @@ function handleNativeDisconnect(port, error = null) {
     nativePort = null;
     isNativeConnected = false;
     saveStorageKey("isNativeConnected", false);
-    console.log(`The YouTubeDiscordPresence desktop component was not properly installed${portError ? `: ${portError.message}` : "."}\nVisit https://github.com/XFG16/YouTubeDiscordPresence#installation`);
+    console.log(`The v3discordpresence desktop component was not properly installed${portError ? `: ${portError.message}` : "."}\nVisit https://github.com/dh6k/v3discordpresence#installation`);
 }
 
 function sendNativeMessage(message) {
@@ -171,7 +171,7 @@ function sendNativeMessage(message) {
 function connectNative() {
     if (nativePort) return;
 
-    let port = chrome.runtime.connectNative("com.ytdp.discord.presence");
+    let port = chrome.runtime.connectNative("com.v3dp.discord.presence");
     nativePort = port;
     port.onMessage.addListener((message) => {
         if (nativePort == port) handleNativeMessage(message);
@@ -398,7 +398,7 @@ function generatePresenceData() {
 
     if (settings.enablePlayingIcon) {
         assetsData.small_image = "playing-icon-6";
-        assetsData.small_text = "YouTubeDiscordPresence on GitHub";
+        assetsData.small_text = "v3discordpresence on GitHub";
     }
 
     let timeStampsData = {};
@@ -520,7 +520,7 @@ let pipeInterval = setInterval(function () {
 // EXTENSION UPDATE HANDLER
 
 chrome.runtime.onUpdateAvailable.addListener(function (details) {
-    console.log(`YTDP IS updating to ${details.version}`);
+    console.log(`v3dp IS updating to ${details.version}`);
     chrome.runtime.reload();
 });
 
@@ -528,8 +528,8 @@ chrome.runtime.onUpdateAvailable.addListener(function (details) {
 
 chrome.runtime.onInstalled.addListener(function (install) {
     if (install.reason == chrome.runtime.OnInstalledReason.INSTALL) {
-        chrome.tabs.create({ url: "https://github.com/XFG16/YouTubeDiscordPresence/tree/main#installation" }, function (tab) {
-            console.log("Redirected user to installation page at\nhttps://github.com/XFG16/YouTubeDiscordPresence/tree/main#installation");
+        chrome.tabs.create({ url: "https://github.com/dh6k/v3discordpresence/tree/main#installation" }, function (tab) {
+            console.log("Redirected user to installation page at\nhttps://github.com/dh6k/v3discordpresence/tree/main#installation");
         });
         saveStorageKey("flashEditPresence", true);
     }

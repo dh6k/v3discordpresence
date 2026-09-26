@@ -2,7 +2,7 @@
 Copyright (c) 2022–Present Michael Ren
 Copyright (c) 2026–Present Charles Kim
 Licensing and distribution info can be found at the GitHub repository
-https://github.com/XFG16/YouTubeDiscordPresence
+https://github.com/dh6k/v3discordpresence
 
 Runs in the page context (injected by content_loader.js).
 Compatible with both modern polymer YouTube and Project VORAPIS (V3) watch7 UI.
@@ -56,7 +56,7 @@ let documentData = new Object();
 let videoPlayer = null;
 
 if (LOGGING) {
-    console.log("YouTubeDiscordPresence - content.js created (vorapis-compat)");
+    console.log("v3discordpresence - content.js created (vorapis-compat)");
 }
 
 // ---------- PLAYER ----------
@@ -228,7 +228,7 @@ function getTimeData(player) {
         }
     } else {
         documentData.timeLeft = null;
-        if (LOGGING) console.log("Unable to get timestamp data for YouTubeDiscordPresence");
+        if (LOGGING) console.log("Unable to get timestamp data for v3discordpresence");
     }
 }
 

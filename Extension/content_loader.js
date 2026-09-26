@@ -1,7 +1,7 @@
 /*
 Copyright (c) 2022–Present Michael Ren
 Licensing and distribution info can be found at the GitHub repository
-https://github.com/XFG16/YouTubeDiscordPresence
+https://github.com/dh6k/v3discordpresence
 
 Isolated-world bridge: injects page-context content.js and relays its events
 to background.js. Must survive VORAPIS (V3) early page rewrites.

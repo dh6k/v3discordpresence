@@ -1,12 +1,12 @@
-# Builds Host/YTDPsetup/Release/YTDPsetup.msi via Visual Studio Installer Projects (vdproj).
-# Requires NodeHost/src/YTDPwin.exe to already exist (npm run compile).
+# Builds Host/v3dpsetup/Release/v3dpsetup.msi via Visual Studio Installer Projects (vdproj).
+# Requires NodeHost/src/v3dpwin.exe to already exist (npm run compile).
 $ErrorActionPreference = 'Stop'
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..\..')
-$exe = Join-Path $repoRoot 'NodeHost\src\YTDPwin.exe'
-$sln = Join-Path $repoRoot 'Host\YTDPsetup\YTDPsetup.sln'
-$outMsi = Join-Path $repoRoot 'Host\YTDPsetup\Release\YTDPsetup.msi'
-$log = Join-Path $env:TEMP 'ytdp-msi-build.log'
+$exe = Join-Path $repoRoot 'NodeHost\src\v3dpwin.exe'
+$sln = Join-Path $repoRoot 'Host\v3dpsetup\v3dpsetup.sln'
+$outMsi = Join-Path $repoRoot 'Host\v3dpsetup\Release\v3dpsetup.msi'
+$log = Join-Path $env:TEMP 'v3dp-msi-build.log'
 
 if (!(Test-Path $exe)) {
     throw "Missing $exe - run 'npm ci; npm run compile' in NodeHost first."
@@ -60,7 +60,7 @@ if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne 1001 -and $LASTEXITCODE -ne 2003)
 if (Test-Path $outMsi) { Remove-Item $outMsi -Force }
 
 Write-Host "Building MSI: $sln"
-& $devenv $sln /Build 'Release|Any CPU' /Project 'YTDPsetup' /Out $log
+& $devenv $sln /Build 'Release|Any CPU' /Project 'v3dpsetup' /Out $log
 $buildExit = $LASTEXITCODE
 if (Test-Path $log) {
     Get-Content $log | Write-Host

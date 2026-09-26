@@ -31,12 +31,12 @@ if (!$version) { throw "Cannot read version from $manifestPath" }
 Write-Host "Extension version: $version"
 
 # Firefox: ship as-is (gecko id lives in browser_specific_settings).
-$ffZip = Join-Path $dist "YouTubeDiscordPresence-$version-firefox.zip"
+$ffZip = Join-Path $dist "v3discordpresence-$version-firefox.zip"
 Compress-Directory -SourceDir $ext -ZipPath $ffZip
 Write-Host "OK: $ffZip"
 
 # Chrome: drop browser_specific_settings (Chrome warns / store tooling is happier).
-$chromeStage = Join-Path $env:TEMP "ytdp-chrome-ext-$version"
+$chromeStage = Join-Path $env:TEMP "v3dp-chrome-ext-$version"
 if (Test-Path $chromeStage) { Remove-Item $chromeStage -Recurse -Force }
 Copy-Item $ext $chromeStage -Recurse
 $chromeManifestPath = Join-Path $chromeStage 'manifest.json'
@@ -45,6 +45,6 @@ $chromeManifest.PSObject.Properties.Remove('browser_specific_settings')
 # WriteAllText avoids BOM that some store linters reject.
 [System.IO.File]::WriteAllText($chromeManifestPath, ($chromeManifest | ConvertTo-Json -Depth 20))
 
-$crZip = Join-Path $dist "YouTubeDiscordPresence-$version-chrome.zip"
+$crZip = Join-Path $dist "v3discordpresence-$version-chrome.zip"
 Compress-Directory -SourceDir $chromeStage -ZipPath $crZip
 Write-Host "OK: $crZip"

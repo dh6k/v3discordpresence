@@ -1,7 +1,7 @@
 /*
 Copyright (c) 2022–Present Michael Ren
 Licensing and distribution info can be found at the GitHub repository
-https://github.com/XFG16/YouTubeDiscordPresence
+https://github.com/dh6k/v3discordpresence
 */
 
 // ==================================
@@ -435,11 +435,11 @@ function handleMainChanges(tab) {
 
 function handleExclusionsChanges() {
     // CHANGE PAGE FROM MAIN TO EXCLUSIONS WHEN CLICKED
-    let ytdpSettingsOutside = document.getElementById("ytdpSettingsOutside");
+    let v3dpSettingsOutside = document.getElementById("v3dpSettingsOutside");
     let exclusionsOutside = document.getElementById("exclusionsOutside");
     let addExclusionsLabel = document.getElementById("addExclusionsLabel");
     addExclusionsLabel.onclick = function () {
-        ytdpSettingsOutside.style.display = "none";
+        v3dpSettingsOutside.style.display = "none";
         exclusionsOutside.style.display = "flex";
     }
 
@@ -453,7 +453,7 @@ function handleExclusionsChanges() {
     // X BUTTON TO RETURN BACK TO MAIN PAGE FROM EXCLUSIONS
     let returnFromExclusionsLabel = document.getElementById("returnFromExclusionsLabel");
     returnFromExclusionsLabel.onclick = function () {
-        ytdpSettingsOutside.style.display = "flex";
+        v3dpSettingsOutside.style.display = "flex";
         exclusionsOutside.style.display = "none";
     }
 
@@ -557,11 +557,11 @@ function handleExclusionsChanges() {
 
 function handleInclusionsChanges() {
     // CHANGE PAGE FROM MAIN TO INCLUSIONS WHEN CLICKED
-    let ytdpSettingsOutside = document.getElementById("ytdpSettingsOutside");
+    let v3dpSettingsOutside = document.getElementById("v3dpSettingsOutside");
     let inclusionsOutside = document.getElementById("inclusionsOutside");
     let addInclusionsLabel = document.getElementById("addInclusionsLabel");
     addInclusionsLabel.onclick = function () {
-        ytdpSettingsOutside.style.display = "none";
+        v3dpSettingsOutside.style.display = "none";
         inclusionsOutside.style.display = "flex";
     }
 
@@ -575,7 +575,7 @@ function handleInclusionsChanges() {
     // X BUTTON TO RETURN BACK TO MAIN PAGE FROM INCLUSIONS
     let returnFromInclusionsLabel = document.getElementById("returnFromInclusionsLabel");
     returnFromInclusionsLabel.onclick = function () {
-        ytdpSettingsOutside.style.display = "flex";
+        v3dpSettingsOutside.style.display = "flex";
         inclusionsOutside.style.display = "none";
     }
 
@@ -679,7 +679,7 @@ function handleInclusionsChanges() {
 
 function handleEditPresenceChanges() {
     // CHANGE PAGE FROM MAIN TO EDIT PRESENCE WHEN CLICKED
-    let ytdpSettingsOutside = document.getElementById("ytdpSettingsOutside");
+    let v3dpSettingsOutside = document.getElementById("v3dpSettingsOutside");
     let editPresenceOutside = document.getElementById("editPresenceOutside");
     let editPresenceLabel = document.getElementById("editPresenceLabel");
 
@@ -688,14 +688,14 @@ function handleEditPresenceChanges() {
             saveStorageKey("flashEditPresence", false);
             document.getElementById("editPresenceLabel").classList.remove("flashOrange");
         }
-        ytdpSettingsOutside.style.display = "none";
+        v3dpSettingsOutside.style.display = "none";
         editPresenceOutside.style.display = "flex";
     }
 
     // X BUTTON TO RETURN BACK TO MAIN PAGE FROM EDIT PRESENCE
     let returnFromEditPresenceLabel = document.getElementById("returnFromEditPresenceLabel");
     returnFromEditPresenceLabel.onclick = function () {
-        ytdpSettingsOutside.style.display = "flex";
+        v3dpSettingsOutside.style.display = "flex";
         editPresenceOutside.style.display = "none";
     }
 

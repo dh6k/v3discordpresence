@@ -1,13 +1,13 @@
 {
-  "name": "youtube-discord-presence",
+  "name": "v3discordpresence",
   "version": "1.7.0",
-  "description": "NodeJS version of the YouTubeDiscordPresence desktop component",
+  "description": "NodeJS version of the v3discordpresence desktop component",
   "main": "src/app.js",
   "scripts": {
     "test": "node src/app.js",
     "postinstall": "patch-package",
     "precompile": "node scripts/precompile.js",
-    "compile": "npx pkg -t node14-win . -o src/YTDPwin.exe",
+    "compile": "npx pkg -t node14-win . -o src/v3dpwin.exe",
     "postcompile": "node scripts/postcompile.js",
     "postversion": "echo also update version in background.js, manifest.json, and when building!"
   },
