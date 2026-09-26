@@ -23,8 +23,7 @@
     "web_accessible_resources": [
         {
             "resources": [
-                "content.js",
-                "warning.html"
+                "content.js"
             ],
             "matches": [
                 "https://www.youtube.com/*",

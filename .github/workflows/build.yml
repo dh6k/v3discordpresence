@@ -1,5 +1,5 @@
-# Builds the Windows host binary, v3dpsetup.msi, and browser-extension zips.
-# Local equivalent: npm run compile in NodeHost, then build Host/v3dpsetup/v3dpsetup.vdproj in VS.
+# Builds the Windows host binary, v3dpsetup.msi, extension CRX/zips, and update manifests.
+# Local: node scripts/pack-extension.js   |  npm run compile in NodeHost  |  VS build of Host/v3dpsetup/v3dpsetup.vdproj
 name: Build
 
 on:
@@ -38,14 +38,19 @@ jobs:
         shell: pwsh
         run: .github/scripts/build-msi.ps1
 
-      - name: Package extensions
+      - name: Package extensions (CRX + update manifests)
         shell: pwsh
+        env:
+          CRX_KEY_BASE64: ${{ secrets.CRX_KEY_BASE64 }}
         run: .github/scripts/package-extensions.ps1
 
       - name: Collect artifacts
         shell: pwsh
         run: |
           Copy-Item Host/v3dpsetup/Release/v3dpsetup.msi dist/
+          Copy-Item updates.xml dist/
+          # drop stage dirs + unpacked trees from the release payload
+          Get-ChildItem dist -Directory | Remove-Item -Recurse -Force
           Get-ChildItem dist | Format-Table Name, Length
 
       - uses: actions/upload-artifact@v4
@@ -58,5 +63,11 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*
+          files: |
+            dist/*.crx
+            dist/*.zip
+            dist/*.msi
+            dist/*.xml
+            dist/*.json
+            dist/extension-id.txt
           generate_release_notes: true

@@ -1,6 +1,6 @@
 .DS_Store
-Host/YTDPsetup/Debug
-Host/YTDPsetup/Release
+Host/v3dpsetup/Debug
+Host/v3dpsetup/Release
 .vscode
 .vs
 *.o
@@ -8,8 +8,11 @@ Host/YTDPsetup/Release
 *.exe
 *.out
 *.zip
+*.crx
 NodeHost/node_modules
 NodeHost/src/app-linux
 NodeHost/src/app-macos
 .env
 NodeHost/src/version.json
+dist/
+keys/*.pem
